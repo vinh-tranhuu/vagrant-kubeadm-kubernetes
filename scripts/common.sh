@@ -70,3 +70,11 @@ local_ip="$(ip --json a s | jq -r '.[] | if .ifname == "eth1" then .addr_info[] 
 cat > /etc/default/kubelet << EOF
 KUBELET_EXTRA_ARGS=--node-ip=$local_ip
 EOF
+
+sudo apt install net-tools
+
+echo "net-tools installed successfully"
+
+route add default gw 192.168.1.1
+
+echo "route 192.168.1.1 added successfully"

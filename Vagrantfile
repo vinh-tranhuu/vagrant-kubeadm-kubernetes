@@ -1,5 +1,5 @@
 NUM_WORKER_NODES=3
-IP_NW="192.162.1."
+IP_NW="192.168.1."
 IP_START=10
 
 Vagrant.configure("2") do |config|
@@ -16,8 +16,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "master" do |master|
     master.vm.hostname = "master-node"
-    master.vm.network "public_network", ip: IP_NW + "#{IP_START}"
-    # master.vm.network "public_network", bridge: "enp0s1",ip: IP_NW + "#{IP_START}"
+    master.vm.network "public_network", bridge: "enp1s0",ip: IP_NW + "#{IP_START}"
     master.vm.provider "virtualbox" do |vb|
         vb.memory = 4096
         vb.cpus = 2
@@ -30,7 +29,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "node0#{i}" do |node|
     node.vm.hostname = "worker-node0#{i}"
-    node.vm.network "public_network", ip: IP_NW + "#{IP_START + i}"
+    node.vm.network "public_network", bridge: "enp1s0", ip: IP_NW + "#{IP_START + i}"
+    
     node.vm.provider "virtualbox" do |vb|
         vb.memory = 4096
         vb.cpus = 2
